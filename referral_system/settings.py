@@ -16,6 +16,8 @@ DEBUG = os.getenv('DEBUG') == "True"
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 
+DJANGO_SETTINGS_MODULE = 'referral_system.settings'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -83,6 +85,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'TEST_REQUEST_RENDERER_CLASSES': [
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer'
+    ]
+}
 
 
 LANGUAGE_CODE = 'en-us'
