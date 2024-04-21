@@ -12,3 +12,12 @@ class AuthCodeInputSerializer(serializers.Serializer):
         max_length=4,
         min_length=4,
     )
+
+    def validate_auth_code(self, value):
+        """
+        Custom validator to check if the auth code is exactly 4 digits.
+        """
+
+        if len(value) != 4 and not value.isdigit():
+            raise serializers.ValidationError("Invalid auth code.")
+        return value
