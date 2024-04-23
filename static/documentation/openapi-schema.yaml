@@ -1,0 +1,163 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/profile/{id}/:
+    get:
+      operationId: retrieveUserProfile
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this User Profile.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateUserProfile
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this User Profile.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateUserProfile
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this User Profile.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+      tags:
+      - api
+  /api/send_phone_number/:
+    post:
+      operationId: createSendPhoneNumberViewSet
+      description: ''
+      parameters:
+        - name: phone_number
+          in: formData
+          required: true
+          description: Phone number for creating a profile and sending an authentication code.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Profile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/send_auth_code/:
+    post:
+      operationId: createSendAuthCodeViewSet
+      description: ''
+      parameters:
+        - name: auth_code
+          in: formData
+          required: true
+          description: The authentication code to confirm the phone number.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    Profile:
+      type: object
+      properties:
+        phone_number:
+          type: string
+          maxLength: 15
+        invite_code:
+          type: string
+          maxLength: 6
+        used_invite_code:
+          type: string
+          nullable: true
+          maxLength: 6
+        list_of_invitees:
+          type: string
+          readOnly: true
+      required:
+      - phone_number
+      - invite_code

@@ -1,11 +1,8 @@
 from django.db import models
-from rest_framework.exceptions import ValidationError
-
-from users.services import generate_invite_code
 
 
 class UserProfile(models.Model):
-    phone_numbers = models.CharField(
+    phone_number = models.CharField(
         max_length=15,
         unique=True,
     )
@@ -40,25 +37,15 @@ class UserProfile(models.Model):
         """
         return self.phone_numbers
 
-    def save(self, *args, **kwargs):
-        """
-        Saves the UserProfile object.
-        Args:
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
-        Returns:
-            None
-        """
-        if not self.invite_code:
-            self.invite_code = generate_invite_code()
-        super().save(*args, **kwargs)
+    @staticmethod
+    def get_invited_by(invite_code):
+        try:
+            return UserProfile.objects.get(invite_code=invite_code)
+        except UserProfile.DoesNotExist:
+            return None
 
-    def clean(self):
-        """
-        Validation for self-invite cases.
-
-        Raises:
-            ValidationError: Self-invite cases are not allowed.
-        """
-        if self.invited_by == self:
-            raise ValidationError("You cannot invite yourself.")
+    @staticmethod
+    def get_list_of_invitees(obj):
+        invitees = UserProfile.objects.select_related('invited_by').filter(
+            invited_by=obj)
+        return [invitee.phone_number for invitee in invitees]

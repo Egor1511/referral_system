@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from users.models import UserProfile
+
 
 class PhoneNumberInputSerializer(serializers.Serializer):
     phone_number = serializers.CharField(
@@ -21,3 +23,26 @@ class AuthCodeInputSerializer(serializers.Serializer):
         if len(value) != 4 and not value.isdigit():
             raise serializers.ValidationError("Invalid auth code.")
         return value
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    list_of_invitees = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserProfile
+        fields = (
+            'phone_number', 'invite_code', 'used_invite_code',
+            'list_of_invitees')
+
+    def get_list_of_invitees(self, obj) -> list:
+        """
+        Get a list of phone numbers of users
+        who were invited by the given object.
+        Args:
+            obj (UserProfile): The UserProfile object
+            to get the list of invitees for.
+        Returns:
+            list: A list of phone numbers of the invitees.
+        """
+        context = obj.get_list_of_invitees(obj)
+        return context
