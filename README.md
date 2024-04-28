@@ -1,3 +1,9 @@
+Postman collection (Main folder - Refferal API Documentation)
+```
+https://www.postman.com/supply-cosmologist-43454487/workspace/github-test-tasks/collection/31564096-e1bfcd5a-7b48-4422-9e75-fada9e828367
+```
+
+
 ### Referral API Functionality
 ## Installation
 # 1. Clone the repository:
